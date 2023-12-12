@@ -125,6 +125,7 @@ func (d *FileDownloader) Run() error {
 			defer wg.Done()
 			err := d.downloadPart(job)
 			if err != nil {
+				// TODO: 失败重试
 				log.Println("下载文件失败:", err, job)
 			}
 		}(j)
@@ -153,6 +154,7 @@ func (d FileDownloader) downloadPart(c filePart) error {
 		return errors.New(fmt.Sprintf("服务器错误状态码: %v", resp.StatusCode))
 	}
 	defer resp.Body.Close()
+	// TODO： ioutil.ReadAll 可能引发OOM
 	bs, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return err
