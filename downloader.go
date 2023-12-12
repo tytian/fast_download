@@ -1,8 +1,6 @@
 package main
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -192,22 +190,22 @@ func (d FileDownloader) mergeFileParts() error {
 		return err
 	}
 	defer mergedFile.Close()
-	hash := sha256.New()
+	//hash := sha256.New()
 	totalSize := 0
 	for _, s := range d.doneFilePart {
 		mergedFile.Write(s.Data)
-		hash.Write(s.Data)
+		//hash.Write(s.Data)
 		totalSize += len(s.Data)
 	}
 	if totalSize != d.fileSize {
 		return errors.New("文件不完整")
 	}
 	//https://download.jetbrains.com/go/goland-2023.3.exe?_gl=1*mup9mj*_ga*MTEwMTg4NzEyMy4xNzAyMzc2MzI4*_ga_9J976DJZ68*MTcwMjM3NjMyNy4xLjEuMTcwMjM3NjQzMC42MC4wLjA.&_ga=2.41896738.1284767415.1702376328-1101887123.1702376328
-	if hex.EncodeToString(hash.Sum(nil)) != "a45dfcc33d6ff7b41a2a0bd9a52a15138845e99bbc97d7aab782c233914acb4e" {
-		return errors.New("文件损坏")
-	} else {
-		log.Println("文件SHA-256校验成功")
-	}
+	//if hex.EncodeToString(hash.Sum(nil)) != "a45dfcc33d6ff7b41a2a0bd9a52a15138845e99bbc97d7aab782c233914acb4e" {
+	//	return errors.New("文件损坏")
+	//} else {
+	//	log.Println("文件SHA-256校验成功")
+	//}
 	return nil
 
 }
